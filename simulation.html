@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Simulation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+	</head>
+	<body class="no-sidebar">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo">Heartbeat Sensor</a></h1>
+							</header>
+						</div>
+
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="problem.html">The Big Problem</a></li>
+							<li><a href="solution.html">The Solution</a>
+								<ul>
+									<li><a href="solution.html">Our Proposal</a></li>
+									<li><a href="simulation.html">Heartbeat Simulation</a></li>
+									<li><a href="makingmusic.html">Making Music</a></li>
+								</ul>
+							</li>
+							<li><a href="next.html">What's Next?</a></li>
+						</ul>
+					</nav>
+
+				</div>
+
+			<!-- Main -->
+				<div class="wrapper style1">
+
+					<div class="container">
+						<article id="main" class="special">
+							<header>
+								<h2><a href="#">A simulation</a></h2>
+								<p>
+									The following displays a simulation of the programs that interact with the heartbeat's sensor data:
+								</p>
+							</header>
+							<canvas id="myChart"></canvas>
+				</div>
+
+
+				<!-- Footer -->
+					<div id="footer">
+						<div class="container">
+							<div class="row">
+							</div>
+							<hr />
+							<div class="row">
+								<div class="12u">
+
+									<!-- Contact -->
+										<section class="contact">
+											<header>
+												<h3>Qué opinas?</h3>
+											</header>
+											<p>Por favor envía tu opinion: <a href="next.html">contacto</a>.</p>
+										</section>
+
+								<!-- Copyright -->
+									<div class="copyright">
+										<ul class="menu">
+											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" />
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.onvisible.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+			<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+		  <script>
+		    // Initialize Firebase
+		    var config = {
+		      apiKey: "AIzaSyDIrg7gxMvKAu6IUAnGbqVYw1MtdiyPI5I",
+		      authDomain: "kair-3091c.firebaseapp.com",
+		      databaseURL: "https://kair-3091c.firebaseio.com",
+		      projectId: "kair-3091c",
+		      storageBucket: "kair-3091c.appspot.com",
+		      messagingSenderId: "1083132186078"
+		    };
+		    firebase.initializeApp(config);
+		  </script>
+
+		  <script>
+		  var timesize = 30;
+		  var ctx = document.getElementById('myChart').getContext('2d');
+		  var finalData = [1, 2];
+		  var chart = new Chart(ctx, {
+		    // The type of chart we want to create
+		    type: 'line',
+
+		    // The data for our dataset
+		    data: {
+		      labels: Array.from(new Array(timesize), (x,i) => i),
+		      datasets: [{
+		        label: "Read Heartbeat",
+		        //backgroundColor: 'rgb(255, 99, 132)',
+		        borderColor: 'rgb(255, 99, 132)',
+		        data: finalData,
+		      }]
+		    },
+
+		    // Configuration options go here
+		    options: {}
+		  });
+		    var starCountRef = firebase.database().ref('Period');
+		    starCountRef.on('value', function(snapshot) {
+		      console.log(snapshot.val());
+		      if (finalData.length>timesize) {
+		        finalData.shift()
+		      }
+		      finalData.push(snapshot.val());
+		      chart.update()
+		    });
+		  </script>
+	</body>
+</html>
